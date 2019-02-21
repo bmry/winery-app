@@ -1,7 +1,29 @@
+parameters:
+    rabbitmq.host: 127.0.0.1
+    rabbitmq.port: 5672
+    rabbitmq.user: guest
+    rabbitmq.pswd: guest
+    rabbitmq.rpc.server: sommellier_service
+
 old_sound_rabbit_mq:
     connections:
         default:
-            url: '%env(RABBITMQ_URL)%'
+            host:     '%rabbitmq.host%'
+            port:     '%rabbitmq.port%'
+            user:     '%rabbitmq.user%'
+            password: '%rabbitmq.pswd%'
+            vhost:    /
+            lazy:     true
+    rpc_clients:
+        order_create_client:
+            connection: default
+            expect_serialized_response: false
+    rpc_servers:
+        sommellier_service:
+            connection: default
+            callback: App\Service\SomellierService
+            qos_options: { prefetch_size: 0, prefetch_count: 1, global: false }
+            queue_options: { name: order_create_qu, durable: true, auto_delete: false }
 #    producers:
 #        # use 'old_sound_rabbit_mq.task_producer' service to send data.
 #        task:

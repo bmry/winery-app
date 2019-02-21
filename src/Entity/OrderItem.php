@@ -23,7 +23,7 @@ class OrderItem
     private $orderId;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Wine", inversedBy="orderItem", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Wine", inversedBy="orderItems")
      * @ORM\JoinColumn(nullable=false)
      */
     private $wine;

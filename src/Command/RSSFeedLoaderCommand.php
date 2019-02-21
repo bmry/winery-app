@@ -59,6 +59,8 @@ class RSSFeedLoaderCommand extends Command
 
         $wine->setPublishDate(new \DateTime($itemNode->pubDate));
         $this->entityManager->persist($wine);
+        dump($wine);
+        $this->entityManager->flush();
     }
 
     private function loadXMLIntoDatabase(){
@@ -71,22 +73,20 @@ class RSSFeedLoaderCommand extends Command
                 continue;
             }
             $itemNode = simplexml_load_string($xmlReader->readOuterXML());
-            if(!$this->isRecordExist($itemNode)){
+            if(!$this->recordExist($itemNode)){
                 continue;
             }
 
             $this->createWineObjectFromXML($itemNode);
         }
-        $this->entityManager->flush();
     }
 
-    private function isRecordExist($record){
+    private function recordExist($record){
         $exist = false;
         $wine = $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['title' => $record->title]);
         if(!$wine){
             $exist = true;
         }
-
         return $exist;
     }
 }

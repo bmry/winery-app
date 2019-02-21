@@ -55,9 +55,9 @@ class Wine
     private $category_id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\OrderItem", mappedBy="wine", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="wine", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $orderItem;
+    private $orderItems;
 
     public function getId(): ?int
     {
@@ -148,20 +148,5 @@ class Wine
         return $this;
     }
 
-    public function getOrderItem(): ?OrderItem
-    {
-        return $this->orderItem;
-    }
 
-    public function setOrderItem(OrderItem $orderItem): self
-    {
-        $this->orderItem = $orderItem;
-
-        // set the owning side of the relation if necessary
-        if ($this !== $orderItem->getWine()) {
-            $orderItem->setWine($this);
-        }
-
-        return $this;
-    }
 }
