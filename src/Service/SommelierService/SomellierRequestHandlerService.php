@@ -11,38 +11,45 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\RpcClient;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
-class SomellierService implements ConsumerInterface
+class SomellierRequestHandlerService implements ConsumerInterface
 {
     private  $entityManager;
-    private  $logger;
     private  $response;
-    public function __construct(EntityManagerInterface $entityManager)
+    private  $responseSender;
+
+    public function __construct(EntityManagerInterface $entityManager, SomellierResponseSenderService $responseSender )
     {
         $this->entityManager = $entityManager;
+        $this->responseSender = $responseSender;
     }
 
     public function execute(AMQPMessage $msg)
     {
         $waiterOrderMessage = json_decode($msg->body, true);
         $this->processWaiterOrder($waiterOrderMessage);
-        return $this->sendReponseToWaiter();
+        return $this->sendProcessedOrder();
     }
 
-    private function processWaiterOrder($request){
+    private function processWaiterOrder($request)
+    {
+        $response = [];
         $wineNames = $request['items'];
+        $response[] = ['order_id' => $request['order_id']];
         $wineAvailabilityStatus = [];
         foreach ($wineNames as $wineName){
             if(!$this->wineAvailable($wineName)){
-                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'available' => false);
+                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
             }else{
-                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'available' => true);
+                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => true);
             }
         }
-        $this->response = json_encode($wineAvailabilityStatus);
+        $response[] = $wineAvailabilityStatus;
+        $this->response = json_encode($response);
     }
 
     private function wineAvailable($wineName){
@@ -54,8 +61,8 @@ class SomellierService implements ConsumerInterface
         return $available;
     }
 
-    public function sendReponseToWaiter(){
-        return $this->response;
+    public function sendProcessedOrder(){
+        $this->responseSender->getPrcocessedOrder($this->response);
     }
 
 }

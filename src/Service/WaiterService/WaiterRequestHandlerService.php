@@ -12,30 +12,25 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Exception\OrderCreateException;
 use Doctrine\ORM\EntityManagerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\RpcClient;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
 
-class WaiterService
+class WaiterRequestHandlerService
 {
     private  $entityManager;
-    private  $rpcClient;
+    private  $producer;
 
-    public function __construct(EntityManagerInterface $entityManager, RpcClient $rpcClient)
+
+    public function __construct(EntityManagerInterface $entityManager, ProducerInterface $producer)
     {
         $this->entityManager = $entityManager;
-        $this->rpcClient = $rpcClient;
+        $this->producer = $producer;
     }
 
     public function processCustomerOrder(Order $order){
-        $somellierResponse = $this->sendCustomerOrderToSomellier($order);
-
-        $this->sendSomellierResponseToCustomer($somellierResponse);
-    }
-
-    private function sendSomellierResponseToCustomer($somellierResponse) {
-        $responses = $somellierResponse;
-
-        return $responses;
+        $this->sendCustomerOrderToSomellier($order);
     }
 
     private function sendCustomerOrderToSomellier(Order $order){
@@ -45,15 +40,7 @@ class WaiterService
             'items' => $this->getOrderItemsName($order->getOrderItems())
         ];
 
-        $wineNames = $message['items'];
-        $this->rpcClient->addRequest(json_encode($message),'sommellier_service', $order->getId());
-        try {
-            return $this->rpcClient->getReplies();
-        } catch (AMQPTimeoutException $e) {
-            throw new OrderCreateException($e->getMessage());
-        }
-
-
+        $this->producer->publish(json_encode($message),'request');
     }
 
     private function getOrderItemsName($orderItems){

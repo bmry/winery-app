@@ -28,6 +28,11 @@ class OrderItem
      */
     private $wine;
 
+    /*
+    * @ORM\Column(name="available", type nullable=true)
+    */
+    private $available;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,17 @@ class OrderItem
     public function setWine(Wine $wine): self
     {
         $this->wine = $wine;
+
+        return $this;
+    }
+    public function getAvailable(): ?Wine
+    {
+        return $this->wine;
+    }
+
+    public function setAvailable($available): self
+    {
+        $this->available = $available;
 
         return $this;
     }

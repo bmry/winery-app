@@ -13,7 +13,7 @@ use App\Entity\Customer;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Event\OrderCreateEvent;
-use App\Service\WaiterService;
+use App\Service\WaiterRequestHandlerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,12 +27,13 @@ class OrderCreateCommand extends Command
     private $waiterService;
     private $entityManager;
     private $eventDispatcher;
-    public function __construct(EntityManagerInterface $entityManager, WaiterService $waiterService, EventDispatcherInterface $eventDispatcher)
+    public function __construct(EntityManagerInterface $entityManager, WaiterRequestHandlerService $waiterService, EventDispatcherInterface $eventDispatcher)
     {
+        parent::__construct();
         $this->entityManager = $entityManager;
         $this->waiterService = $waiterService;
         $this->eventDispatcher = $eventDispatcher;
-        parent::__construct();
+
     }
 
 
