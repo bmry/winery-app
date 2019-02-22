@@ -30,4 +30,4 @@ services:
     # please note that last definitions always *replace* previous ones
 
 
-    OldSound\RabbitMqBundle\RabbitMq\RpcClient: '@old_sound_rabbit_mq.order_create_client_rpc'
+    OldSound\RabbitMqBundle\RabbitMq\ProducerInterface: '@old_sound_rabbit_mq.order_create_producer'

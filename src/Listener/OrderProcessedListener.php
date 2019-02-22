@@ -8,17 +8,15 @@
 
 namespace App\Listener;
 
-
-use App\Event\OrderCreateEvent;
 use App\Event\OrderProcessedEvent;
-use App\Service\WaiterRequestHandlerService;
+use App\Service\SommelierService\SommelierResponseHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OrderProcessedListener implements EventSubscriberInterface
 {
     private $waiterService;
 
-    public function __construct(WaiterRequestHandlerService $waiterService)
+    public function __construct(SommelierResponseHandler $waiterService)
     {
         $this->waiterService = $waiterService;
     }
@@ -30,10 +28,17 @@ class OrderProcessedListener implements EventSubscriberInterface
         );
     }
 
-    public function onOrderProcessed(OrderCreateEvent $orderCreateEvent)
+    public function onOrderProcessed(OrderProcessedEvent $orderProcessedEvent)
     {
+        $order = $orderProcessedEvent->getOrder();
+        $customerContactEmail = $order->getCustomer()->getEmail();
+        $this->sendMailToCustomer($customerContactEmail);
+        // Send Customer Email
+        //Send Customer SMS
+        dump($order);
+    }
 
-        $order = $orderCreateEvent->getOrder();
-        $this->waiterService->processCustomerOrder($order);
+    private function sendMailToCustomer($customerEmail){
+
     }
 }

@@ -14,16 +14,28 @@ old_sound_rabbit_mq:
             password: '%rabbitmq.pswd%'
             vhost:    /
             lazy:     true
-    rpc_clients:
-        order_create_client:
-            connection: default
-            expect_serialized_response: false
-    rpc_servers:
-        sommellier_service:
-            connection: default
-            callback: App\Service\SomellierService
-            qos_options: { prefetch_size: 0, prefetch_count: 1, global: false }
-            queue_options: { name: order_create_qu, durable: true, auto_delete: false }
+
+    producers:
+        order_create:
+            connection:       default
+            exchange_options: { name: order_create_ex, type: direct }
+    consumers:
+        order_create_request:
+            connection:       default
+            exchange_options: { name: order_create_ex, type: direct }
+            queue_options:
+                name: order_request
+                routing_keys:
+                    - 'order_request'
+            callback:      App\Service\SommelierService\WaiterRequestHandler
+        order_create_response:
+            connection:       default
+            exchange_options: { name: order_create_ex, type: direct }
+            queue_options:
+                name: order_response
+                routing_keys:
+                    - 'order_response'
+            callback:      App\Service\WaiterService\WaiterResponseSender
 #    producers:
 #        # use 'old_sound_rabbit_mq.task_producer' service to send data.
 #        task:

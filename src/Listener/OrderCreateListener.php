@@ -10,17 +10,17 @@ namespace App\Listener;
 
 
 use App\Event\OrderCreateEvent;
-use App\Service\WaiterRequestHandlerService;
+use App\Service\WaiterService\CustomerRequestHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OrderCreateListener implements EventSubscriberInterface
 {
-    private $waiterService;
+    private $waiterRequestSender;
+    private $producer;
 
-    public function __construct(WaiterRequestHandlerService $waiterService)
+    public function __construct(CustomerRequestHandler $waiterRequestSender)
     {
-
-        $this->waiterService = $waiterService;
+        $this->waiterRequestSender = $waiterRequestSender;
     }
 
     public static function getSubscribedEvents()
@@ -31,8 +31,9 @@ class OrderCreateListener implements EventSubscriberInterface
     }
 
     public function onOrderCreate(OrderCreateEvent $orderCreateEvent){
-
         $order =  $orderCreateEvent->getOrder();
-        $this->waiterService->processCustomerOrder($order);
+
+        $this->waiterRequestSender->sendCustomerOrderToSomellier($order);
     }
+
 }

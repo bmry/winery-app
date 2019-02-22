@@ -61,9 +61,9 @@ class OrderItem
 
         return $this;
     }
-    public function getAvailable(): ?Wine
+    public function getAvailable(): ?bool
     {
-        return $this->wine;
+        return $this->available;
     }
 
     public function setAvailable($available): self
