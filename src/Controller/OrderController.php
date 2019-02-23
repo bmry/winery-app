@@ -37,7 +37,7 @@ class OrderController extends AbstractController
             $em->persist($order);
             $em->flush();
             $this->addFlash('success', 'Your order has been received and its being processed. We will get back to you shortly via the email address you provided.');
-            $this->redirect($this->generateUrl('new_order'));
+            return $this->redirect($this->generateUrl('new_order'));
         }
 
         return $this->render('Order/new.html.twig', ['form' => $form->createView()]);
