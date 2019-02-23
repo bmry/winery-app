@@ -23,10 +23,9 @@ class OrderItem
     private $orderId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Wine", inversedBy="orderItems")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      */
-    private $wine;
+    public $wine;
 
     /*
     * @ORM\Column(name="available", type nullable=true)
@@ -50,14 +49,14 @@ class OrderItem
         return $this;
     }
 
-    public function getWine(): ?Wine
+    public function getWine(): ?int
     {
         return $this->wine;
     }
 
     public function setWine(Wine $wine): self
     {
-        $this->wine = $wine;
+        $this->wine = $wine->getId();
 
         return $this;
     }
@@ -71,5 +70,11 @@ class OrderItem
         $this->available = $available;
 
         return $this;
+    }
+
+
+    public function __toString()
+    {
+       return "'".$this->getId()."'";
     }
 }

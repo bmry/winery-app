@@ -49,9 +49,10 @@ class WaiterRequestHandler implements ConsumerInterface
         $logMessage = ['action' =>'sommelier_start_order_processing', 'body' => ['message'=>$request['order_id']]];
         $this->orderLogger->log($logMessage);
 
-        $wineNames = $request['items'];
+        $wineIds = $request['items'];
         $wineAvailabilityStatus = [];
-        foreach ($wineNames as $wineName){
+        foreach ($wineIds as $wineId){
+            $wineName = $this->getWineNameById($wineId);
             if(!$this->wineAvailable($wineName)){
                 $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
             }else{
@@ -65,7 +66,6 @@ class WaiterRequestHandler implements ConsumerInterface
                     'message'=>$wineAvailabilityStatus
                 ]
             ];
-
             $this->orderLogger->log($logMessage);
         }
 
@@ -95,4 +95,7 @@ class WaiterRequestHandler implements ConsumerInterface
         $this->orderLogger->log($logMessage);
     }
 
+    private function getWineNameById($wineId){
+        return $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId])->getTitle();
+    }
 }

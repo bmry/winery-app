@@ -36,6 +36,7 @@ class WaiterResponseSender implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $this->sommelierResponse =  json_decode($msg->body, true);
+
         $orderUpdate = $this->updatedOrderBasedOnSommelierResponse($this->sommelierResponse);
         $this->broadcastOrderUpdate($orderUpdate);
     }

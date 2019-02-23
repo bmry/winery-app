@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid" style="margin-top: 100px">
+
+        <!-- Page Heading -->
+        <div class="card o-hidden">
+            <div class="card-body">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="  col-lg-7">
+                        <div class="text-center">
+                            {{ include('flash_message.html.twig') }}
+                            <h1 class="h4 text-gray-900 mb-4">Waiter Desk</h1>
+                        </div>
+                        <form class="user" enctype="multipart/form-data"  method="post" action="{{  path('new_order') }}">
+                            {{ form_row(form._token) }}
+                            {% if not form.vars.valid %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                    {{ form_errors(form) }}
+                                </div>
+                            {% endif %}
+                            <div class="row">
+                                <ul>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                            {{ form_row(form.customerContactEmail) }}
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <ul class="orderItems" data-prototype="{{ form_widget(form.orderItems.vars.prototype)|e('html_attr') }}">
+                                <div class="form-group">
+
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        {% for orderItem in form.orderItems %}
+                                            {{ form_row(form.orderItems) }}
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+                                </ul>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                <button class="btn btn-primary btn-user btn-sm"  type="submit">
+                                    {{ 'Submit Order' }}
+                                </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+{% endblock body %}

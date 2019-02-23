@@ -73,8 +73,6 @@ class OrderCreateCommand extends Command
         $orderItem->setOrderId($order);
         $orderItem->setWine($wine);
 
-
-        $order->setCustomer($customer);
         $order->addOrderItem($orderItem);
         $this->entityManager->persist($order);
 

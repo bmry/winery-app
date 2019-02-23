@@ -56,10 +56,12 @@ class CustomerRequestHandler
     private function getOrderItemsName($orderItems){
         $items = [];
         foreach ($orderItems as $item) {
-            $items[] = $item->getWine()->getTitle();
+
+            $items[] = $item->getWine();
         }
         return $items;
     }
+
 
 
 }

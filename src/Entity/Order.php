@@ -21,13 +21,12 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="orders", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="customer_contact_email", type="string", nullable=false)
      */
-    private $customer;
+    private $customerContactEmail;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="orderId", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="orderId",fetch="EAGER",orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $orderItems;
 
@@ -47,14 +46,14 @@ class Order
         return $this->id;
     }
 
-    public function getCustomer(): ?Customer
+    public function getCustomerContactEmail(): ?string
     {
-        return $this->customer;
+        return $this->customerContactEmail;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setCustomerContactEmail(? string $customerContactEmail): self
     {
-        $this->customer = $customer;
+        $this->customerContactEmail = $customerContactEmail;
 
         return $this;
     }
@@ -66,6 +65,7 @@ class Order
     {
         return $this->orderItems;
     }
+
 
     public function addOrderItem(OrderItem $orderItem): self
     {
