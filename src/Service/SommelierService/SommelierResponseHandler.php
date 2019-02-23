@@ -26,11 +26,14 @@ class SommelierResponseHandler
         $this->orderLogger = $orderLogger;
     }
 
-    public function addProcessedOrderToQueue($processedOrder){
 
+    public function addProcessedOrderToQueue($processedOrder){
+        $message = json_decode($processedOrder);
+        $orderId = $message->order_id;
         $logMessage = [
             'action' =>'sommelier_dropping_order_for_waiter',
             'body' => [
+                'order_id' => $orderId,
                 'message'=>$processedOrder
             ]
         ];

@@ -1,3 +1,4 @@
+
 <table class="table table-bordered" style="color: #4e73df">
     <thead>
     <tr>
@@ -11,15 +12,16 @@
 
     {% for orderItem in orderItems %}
         <tr>
+
             <td>{{ count+1 }}</td>
-            <td>{{ orderItem.getWine() }}</td>
+            <td>{{ get_wine_name(orderItem.getWine()) }}</td>
             <td>
-                {% if true == orderItem.available  %}
+                {% if orderItem.available  %}
                     Available
-                {% elseif orderItem.available is null %}
-                    Unknown
-                {% else %}
+                {% elseif false == orderItem.available %}
                     Not Available
+                {% else %}
+                    Unknown
                 {% endif %}
             </td>
         </tr>

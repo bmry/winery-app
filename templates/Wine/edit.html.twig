@@ -1,0 +1,66 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="card o-hidden">
+            <div class="card-body">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="  col-lg-7" style="color: #4e73df">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Wine</h1>
+                        </div>
+                        <form class="user" enctype="multipart/form-data"  method="post" action="{{ object is defined and object.getId() ? path('edit_wine', {id:object.getId()}) : path('edit_wine') }}">
+                            {% if not form.vars.valid %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                    {{ form_errors(form) }}
+                                </div>
+                            {% endif %}
+                            {{ form_row(form._token) }}
+                            <div class="form-group row">
+                                <div class="col-sm-10 mb-3 mb-sm-0">
+                                    {{ form_row(form.title) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10 mb-3 mb-sm-0">
+                                    {{ form_row(form.link) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10 mb-3 mb-sm-0">
+                                    {{ form_row(form.guid) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-7">
+                                    {{ form_row(form.author) }}
+                                </div>
+                                <div class="col-sm-3">
+                                    {{ form_row(form.publishDate) }}
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10 mb-3 mb-sm-0">
+                                    {{ form_row(form.description) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-primary btn-user btn-lg" type="submit">
+                                    {{ 'Save' }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+{% endblock body %}

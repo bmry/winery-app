@@ -38,16 +38,16 @@ class WaiterResponseSender implements ConsumerInterface
         $this->sommelierResponse =  json_decode($msg->body, true);
 
         $orderUpdate = $this->updatedOrderBasedOnSommelierResponse($this->sommelierResponse);
+        $this->updateOrderItemAvailability($orderUpdate);
         $this->broadcastOrderUpdate($orderUpdate);
     }
 
     public function updatedOrderBasedOnSommelierResponse($sommelierResponse){
         $orderId = $sommelierResponse['order_id'];
         $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $orderId]);
-        $this->updateOrderItemAvailability($order);
         $this->updateOrderStatus($order);
         $processedOrder = $order;
-        $this->entityManager->flush();
+        $this->entityManager->flush($order);
         return $processedOrder;
     }
 
@@ -69,8 +69,9 @@ class WaiterResponseSender implements ConsumerInterface
             $orderedItem = $this->entityManager->getRepository('App\Entity\OrderItem')->findOneBy(['wine' => $wine,'orderId' => $order]);
             $orderedItem->setAvailable($wineAvailabilityStatus);
             $this->entityManager->persist($orderedItem);
+            dump($orderedItem);
+            $this->entityManager->flush();
         }
-        $this->entityManager->flush();
     }
 
     private function broadcastOrderUpdate(Order $order)

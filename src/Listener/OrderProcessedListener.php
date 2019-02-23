@@ -35,7 +35,7 @@ class OrderProcessedListener implements EventSubscriberInterface
         $this->sendMailToCustomer($customerContactEmail);
         // Send Customer Email
         //Send Customer SMS
-        dump($order);
+        //dump($order);
     }
 
     private function sendMailToCustomer($customerEmail){

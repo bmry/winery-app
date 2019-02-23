@@ -1,0 +1,44 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">List Of Wine</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="text-center">
+                        <p class="mb-4">    </p>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                            <thead style="color: #4e73df">
+                            <tr>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Publish Date</th>
+                                <th>GUID</th>
+                                <th>Description</th>
+                                <th>Link</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for wine in wines %}
+                                <tr>
+                                    <td>{{ wine.title }}</td>
+                                    <td>{{ wine.author }}</td>
+                                    <td>{{ wine.publishDate | date('d F, Y') }}</td>
+                                    <td>{{ wine.guid }}</td>
+                                    <td>{{ wine.description }}</td>
+                                    <td>{{ wine.link }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}

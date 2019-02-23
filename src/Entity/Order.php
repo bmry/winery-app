@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use phpDocumentor\Reflection\Types\Boolean;
 
 /**
@@ -13,6 +14,7 @@ use phpDocumentor\Reflection\Types\Boolean;
  */
 class Order
 {
+    use Timestampable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

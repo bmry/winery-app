@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WineRepository")
@@ -13,7 +12,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  */
 class Wine
 {
-    use ORMBehaviors\Timestampable\Timestampable;
+    use Timestampable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -56,10 +55,6 @@ class Wine
      */
     private $category_id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="wine", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $orderItems;
 
     public function __construct()
     {
@@ -154,37 +149,5 @@ class Wine
 
         return $this;
     }
-
-    /**
-     * @return Collection|OrderItem[]
-     */
-    public function getOrderItems(): Collection
-    {
-        return $this->orderItems;
-    }
-
-    public function addOrderItem(OrderItem $orderItem): self
-    {
-        if (!$this->orderItems->contains($orderItem)) {
-            $this->orderItems[] = $orderItem;
-            $orderItem->setWine($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderItem(OrderItem $orderItem): self
-    {
-        if ($this->orderItems->contains($orderItem)) {
-            $this->orderItems->removeElement($orderItem);
-            // set the owning side to null (unless already changed)
-            if ($orderItem->getWine() === $this) {
-                $orderItem->setWine(null);
-            }
-        }
-
-        return $this;
-    }
-
 
 }

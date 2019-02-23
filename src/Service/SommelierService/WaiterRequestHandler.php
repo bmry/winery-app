@@ -30,30 +30,31 @@ class WaiterRequestHandler implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
-        $waiterOrderMessage = json_decode($msg->body, true);
-
+        $waiterRequest = json_decode($msg->body, true);
         $logMessage = [
             'action' =>'sommelier_received_order',
             'body' => [
-                'message'=>$waiterOrderMessage
+                'order_id' => $waiterRequest['order_id'],
+                'message'=>$waiterRequest
             ]
         ];
         $this->orderLogger->log($logMessage);
 
-        $this->processOrder($waiterOrderMessage);
+        $this->processWaiterRequest($waiterRequest);
         $this->sendProcessedOrder();
     }
 
-    private function processOrder($request)
+    private function processWaiterRequest($request)
     {
-        $logMessage = ['action' =>'sommelier_start_order_processing', 'body' => ['message'=>$request['order_id']]];
+        $logMessage = ['action' =>'sommelier_start_order_processing', 'body' => ['order_id'=>$request['order_id'],'message'=>$request]];
         $this->orderLogger->log($logMessage);
         $wineIds = $request['items'];
         $wineAvailabilityStatus = [];
-
+        $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $request['order_id']]);
+        $orderDate = $order->getCreatedAt();
         foreach ($wineIds as $wineId){
             $wineName = $this->getWineNameById($wineId);
-            if(!$this->wineAvailable($wineName)){
+            if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
                 $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
             }else{
                 $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => true);
@@ -72,19 +73,17 @@ class WaiterRequestHandler implements ConsumerInterface
         $this->response = array('order_id' =>$request['order_id'], 'wine_status' => $wineAvailabilityStatus);
     }
 
-    private function wineAvailable($wineName){
+    private function wineAvailableOnOrderDate($wineName, $orderDate){
         $available = true;
-        $wine = $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['title' => $wineName]);
+        $wine = $this->entityManager->getRepository('App\Entity\Wine')->getWineByNameAndDate($wineName,$orderDate);
         if(!$wine){
             $available = false;
         }
-
         return $available;
     }
 
     public function sendProcessedOrder(){
         $this->responseSender->addProcessedOrderToQueue(json_encode($this->response));
-
         $logMessage = [
             'action' =>'sommelier_add_response_to_queue',
             'body' => [

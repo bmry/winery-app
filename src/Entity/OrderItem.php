@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderItemRepository")
  */
 class OrderItem
 {
+    use Timestampable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,8 +29,8 @@ class OrderItem
      */
     public $wine;
 
-    /*
-    * @ORM\Column(name="available", type nullable=true)
+    /**
+    * @ORM\Column(name="available", type="boolean", nullable=true)
     */
     private $available;
 

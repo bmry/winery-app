@@ -59,7 +59,7 @@ class RSSFeedLoaderCommand extends Command
 
         $wine->setPublishDate(new \DateTime($itemNode->pubDate));
         $this->entityManager->persist($wine);
-        dump($wine);
+        dump($wine->getTitle());
         $this->entityManager->flush();
     }
 

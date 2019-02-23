@@ -36,6 +36,14 @@ old_sound_rabbit_mq:
                 routing_keys:
                     - 'order_response'
             callback:      App\Service\WaiterService\WaiterResponseSender
+        wine_update:
+            connection:       default
+            exchange_options: { name: order_create_ex, type: direct }
+            queue_options:
+                name: wine_update
+                routing_keys:
+                    - 'wine_update'
+            callback:      App\Service\WaiterService\WaiterResponseSender
 #    producers:
 #        # use 'old_sound_rabbit_mq.task_producer' service to send data.
 #        task:

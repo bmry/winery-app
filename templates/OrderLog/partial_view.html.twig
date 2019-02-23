@@ -1,0 +1,21 @@
+<div style="overflow: auto">
+<table class="table" style="color: #4e73df; width: inherit;table-layout: fixed" >
+    <thead>
+    <tr>
+        <th><strong>Action</strong></th>
+        <td><strong>Message</strong></td>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for orderLog in orderLogs %}
+        <tr>
+            <td>{{ orderLog.getLogAction() }}</td>
+            <td>
+                {{ orderLog.getMessage() }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>

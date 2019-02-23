@@ -71,10 +71,10 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order/get_order_items/{order_id}", name="get_order_items")
+     * @Route("/order/get_order_logs/{order_id}", name="get_order_logs")
      */
     public function getOrderLogAction($order_id){
-        $order = $this->getDoctrine()->getManager()->getRepository('App\Entity\OrderLog')->findOneBy(['' => $order_id]);
-        return $this->render('OrderItem/partial_view.html.twig', ['orderItems' => $order->getOrderItems()]);
+        $order = $this->getDoctrine()->getManager()->getRepository('App\Entity\Order')->findOneBy(['id' => $order_id]);
+        return $this->render('OrderLog/partial_view.html.twig', ['orderLogs' => $order->getOrderLogs()]);
     }
 }

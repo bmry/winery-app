@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OrderLogRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\WineLogRepository")
  */
-class OrderLog
+class WineLog
 {
     use Timestampable;
     /**
@@ -24,10 +24,10 @@ class OrderLog
     private $log_action;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="orderItems")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Wine", inversedBy="logs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $orderId;
+    private $wine;
 
     /**
      * @ORM\Column(type="json_array")
@@ -63,14 +63,14 @@ class OrderLog
         return $this;
     }
 
-    public function getOrderId(): ?Order
+    public function getWine(): ?Wine
     {
-        return $this->orderId;
+        return $this->wine;
     }
 
-    public function setOrderId(?Order $orderId): self
+    public function setWine(?Wine $wine): self
     {
-        $this->orderId = $orderId;
+        $this->wine = $wine;
 
         return $this;
     }

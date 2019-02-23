@@ -47,6 +47,7 @@ class CustomerRequestHandler
         $logMessage = [
             'action' =>'order_sent_to_somellier',
             'body' => [
+                'order_id' => $order->getId(),
                 'message'=>$message
             ]
         ];
