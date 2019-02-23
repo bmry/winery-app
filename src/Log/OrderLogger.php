@@ -27,5 +27,6 @@ class OrderLogger
         $orderLog->setLogAction($message['action']);
         $orderLog->setMessage(json_encode($message['body']));
         $this->entityManager->persist($orderLog);
+        $this->entityManager->flush($orderLog);
     }
 }

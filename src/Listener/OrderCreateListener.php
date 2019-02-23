@@ -16,7 +16,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class OrderCreateListener implements EventSubscriberInterface
 {
     private $waiterRequestSender;
-    private $producer;
 
     public function __construct(CustomerRequestHandler $waiterRequestSender)
     {
@@ -32,7 +31,6 @@ class OrderCreateListener implements EventSubscriberInterface
 
     public function onOrderCreate(OrderCreateEvent $orderCreateEvent){
         $order =  $orderCreateEvent->getOrder();
-
         $this->waiterRequestSender->sendCustomerOrderToSomellier($order);
     }
 

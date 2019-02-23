@@ -1,0 +1,28 @@
+<table class="table table-bordered" style="color: #4e73df">
+    <thead>
+    <tr>
+        <td><strong>ID</strong></td>
+        <th><strong>Wine</strong></th>
+        <td><strong>Availability Status</strong></td>
+    </tr>
+    </thead>
+    <tbody>
+    {% set count = 0  %}
+
+    {% for orderItem in orderItems %}
+        <tr>
+            <td>{{ count+1 }}</td>
+            <td>{{ orderItem.getWine() }}</td>
+            <td>
+                {% if true == orderItem.available  %}
+                    Available
+                {% elseif orderItem.available is null %}
+                    Unknown
+                {% else %}
+                    Not Available
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

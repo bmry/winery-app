@@ -44,15 +44,18 @@ class WaiterResponseSender implements ConsumerInterface
     public function updatedOrderBasedOnSommelierResponse($sommelierResponse){
         $orderId = $sommelierResponse['order_id'];
         $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $orderId]);
-        $this->updateOrderStatus($order);
         $this->updateOrderItemAvailability($order);
-        return $order;
+        $this->updateOrderStatus($order);
+        $processedOrder = $order;
+        $this->entityManager->flush();
+        return $processedOrder;
     }
 
     private function updateOrderStatus(Order $order)
     {
         $order->setStatus('PROCESSED');
         $this->entityManager->persist($order);
+
     }
 
     private function updateOrderItemAvailability($order)
@@ -67,6 +70,7 @@ class WaiterResponseSender implements ConsumerInterface
             $orderedItem->setAvailable($wineAvailabilityStatus);
             $this->entityManager->persist($orderedItem);
         }
+        $this->entityManager->flush();
     }
 
     private function broadcastOrderUpdate(Order $order)

@@ -48,9 +48,9 @@ class WaiterRequestHandler implements ConsumerInterface
     {
         $logMessage = ['action' =>'sommelier_start_order_processing', 'body' => ['message'=>$request['order_id']]];
         $this->orderLogger->log($logMessage);
-
         $wineIds = $request['items'];
         $wineAvailabilityStatus = [];
+
         foreach ($wineIds as $wineId){
             $wineName = $this->getWineNameById($wineId);
             if(!$this->wineAvailable($wineName)){
@@ -69,7 +69,7 @@ class WaiterRequestHandler implements ConsumerInterface
             $this->orderLogger->log($logMessage);
         }
 
-        $this->response = json_encode(array('order_id' =>$request['order_id'], 'wine_status' => $wineAvailabilityStatus));
+        $this->response = array('order_id' =>$request['order_id'], 'wine_status' => $wineAvailabilityStatus);
     }
 
     private function wineAvailable($wineName){
@@ -83,7 +83,7 @@ class WaiterRequestHandler implements ConsumerInterface
     }
 
     public function sendProcessedOrder(){
-        $this->responseSender->addProcessedOrderToQueue($this->response);
+        $this->responseSender->addProcessedOrderToQueue(json_encode($this->response));
 
         $logMessage = [
             'action' =>'sommelier_add_response_to_queue',

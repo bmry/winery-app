@@ -1,0 +1,80 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Customer Order</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="text-center">
+                        <p class="mb-4">    </p>
+                        {% if orders|length == 0 %}
+                        <a href="#" class="btn btn-outline-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-plus"></i>
+                            </span>
+                            You have no order
+                        </a>
+                    </div>
+                    {% else %}
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer Contact</th>
+                                <th>Order Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for order in orders %}
+                                <tr>
+                                    <td>ORD-{{ order.id }}</td>
+                                    <td>{{ order.customerContactEmail }}</td>
+                                    <td>{{ order.status }}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-icon-split btn-sm" href="#">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text"> View Order Logs</span>
+                                        </a>
+                                        <a class="btn btn-info btn-icon-split btn-sm" id="orderItemButton-{{ order.id }}" data-toggle="modal" data-target="#modal" onclick="getOrderItems({{ order.id }})" href="#" rel="{{ path('get_order_items',{order_id:order.id()}) }}">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text">View Order Items</span>
+                                        </a>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function getOrderItems(orderId){
+            $("#responseBody").html("Fetching Order Items ....")
+            var btn = $('#orderItemButton-'+orderId);
+            var url = btn.attr('rel');
+            $.ajax
+            (
+                {
+                    type: "GET",
+                    url: url,
+                    success: function(html)
+                    {
+                        $("#responseBody").html(html);
+                    }
+                });
+        }
+
+    </script>
+{% endblock body %}

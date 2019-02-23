@@ -10,13 +10,21 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Event\OrderCreateEvent;
 use App\Form\Type\OrderType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
+    private $eventDispatcher;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * @Route("/order", name="new_order")
@@ -37,9 +45,36 @@ class OrderController extends AbstractController
             $em->persist($order);
             $em->flush();
             $this->addFlash('success', 'Your order has been received and its being processed. We will get back to you shortly via the email address you provided.');
+            $this->eventDispatcher->dispatch(OrderCreateEvent::name, new OrderCreateEvent($order));
+
             return $this->redirect($this->generateUrl('new_order'));
         }
 
         return $this->render('Order/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/order/list", name="order_list")
+     */
+    public function listAction(){
+
+        $orders = $this->getDoctrine()->getManager()->getRepository('App\Entity\Order')->getAllOrders();
+        return $this->render('Order/list.html.twig', ['orders' => $orders]);
+    }
+
+    /**
+     * @Route("/order/get_order_items/{order_id}", name="get_order_items")
+     */
+    public function getOrderItemAction($order_id){
+        $order = $this->getDoctrine()->getManager()->getRepository('App\Entity\Order')->findOneBy(['id' => $order_id]);
+        return $this->render('OrderItem/partial_view.html.twig', ['orderItems' => $order->getOrderItems()]);
+    }
+
+    /**
+     * @Route("/order/get_order_items/{order_id}", name="get_order_items")
+     */
+    public function getOrderLogAction($order_id){
+        $order = $this->getDoctrine()->getManager()->getRepository('App\Entity\OrderLog')->findOneBy(['' => $order_id]);
+        return $this->render('OrderItem/partial_view.html.twig', ['orderItems' => $order->getOrderItems()]);
     }
 }

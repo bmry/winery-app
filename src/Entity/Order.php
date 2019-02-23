@@ -17,6 +17,7 @@ class Order
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
@@ -31,6 +32,11 @@ class Order
     private $orderItems;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderLog", mappedBy="orderId",fetch="EAGER",orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $orderLogs;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
 
@@ -39,6 +45,7 @@ class Order
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->orderLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,6 +71,14 @@ class Order
     public function getOrderItems(): Collection
     {
         return $this->orderItems;
+    }
+
+    /**
+     * @return Collection|OrderItem[]
+     */
+    public function getOrderLogs(): Collection
+    {
+        return $this->orderLogs;
     }
 
 

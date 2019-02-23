@@ -22,6 +22,12 @@ class OrderLog
     private $log_action;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="orderItems")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $orderId;
+
+    /**
      * @ORM\Column(type="json_array")
      */
     private $message;
