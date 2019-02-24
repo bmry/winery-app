@@ -9,9 +9,7 @@
 namespace App\Listener;
 
 use App\Entity\Wine;
-use App\Event\WineUpdateEvent;
 use App\Log\WineUpdateLogger;
-use App\Service\SommelierService\SommelierResponseHandler;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
@@ -39,14 +37,12 @@ class WineUpdateListener implements EventSubscriberInterface
     {
         $object = $args->getObject();
         $changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($object);
-
-        if ($object instanceof Wine) {
-            $wine = $object;
-            if ($this->wineAvailableDateUpdated($changes)) {
-                if($this->wineAvailableDateIsToday($wine)){
-                    $this->addAvailableWineInfoToQueueForWaiter($wine);
-                }
-            }
+        if(!$object instanceof Wine){
+            return false;
+        }
+        $wine = $object;
+        if ($this->wineAvailableDateUpdated($changes)) {
+            $this->notifyWaiterIfWineIsAvailableToday($wine);
         }
     }
 
@@ -97,6 +93,12 @@ class WineUpdateListener implements EventSubscriberInterface
 
         return $isToday;
 
+    }
+
+    private function notifyWaiterIfWineIsAvailableToday(Wine $wine){
+        if ($this->wineAvailableDateIsToday($wine)){
+            $this->addAvailableWineInfoToQueueForWaiter($wine);
+        }
     }
 
 

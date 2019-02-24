@@ -29,29 +29,15 @@ class CustomerRequestHandler
 
     public function sendCustomerOrderToSomellier(Order $order)
     {
-        $logMessage = [
-            'action' =>'waiter_received_order',
-            'body' => [
-                'order_id'=>$order->getId()
-            ]
-        ];
-        $this->orderLogger->log($logMessage);
+        $this->orderLogger->logAction('waiter_received_order', $order->getId(), $order->getId());
 
         $message = [
             'order_id' => $order->getId(),
             'items' => $this->getOrderItemsName($order->getOrderItems())
         ];
-
         $this->producer->publish(json_encode($message),'order_request');
 
-        $logMessage = [
-            'action' =>'order_forwarded_to_somellier',
-            'body' => [
-                'order_id' => $order->getId(),
-                'message'=>$message
-            ]
-        ];
-        $this->orderLogger->log($logMessage);
+        $this->orderLogger->logAction('order_forwarded_to_somellier', $order->getId(), $message);
     }
 
     private function getOrderItemsName($orderItems){

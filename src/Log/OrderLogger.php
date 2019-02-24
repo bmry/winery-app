@@ -22,7 +22,7 @@ class OrderLogger
         $this->entityManager = $entityManager;
     }
 
-    public  function log($message) {
+    private function persistLogRecordToDB($message) {
 
         $orderLog = new OrderLog();
         $orderLog->setLogAction($message['action']);
@@ -33,4 +33,16 @@ class OrderLogger
         $this->entityManager->persist($orderLog);
         $this->entityManager->flush($orderLog);
     }
+
+    public function logAction($action,$order_id, $message){
+        $logMessage = [
+            'action' =>$action,
+            'body' => [
+                'order_id' => $order_id,
+                'message'=>$message
+            ]
+        ];
+        $this->persistLogRecordToDB($logMessage);
+    }
+
 }

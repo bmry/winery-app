@@ -33,7 +33,7 @@ class WaiterRequestHandler implements ConsumerInterface
         $waiterRequest = json_decode($msg->body, true);
         $this->processWaiterRequest($waiterRequest);
         $this->sendProcessedOrder();
-        $this->logWaiterRequestHandling($waiterRequest);
+        $this->orderLogger->logAction('sommelier_received_order',$waiterRequest['order_id'], $waiterRequest);
     }
 
     private function processWaiterRequest($request)
@@ -46,21 +46,8 @@ class WaiterRequestHandler implements ConsumerInterface
         $orderDate = $order->getCreatedAt();
 
         foreach ($wineIds as $wineId){
-            $wineName = $this->getWineNameById($wineId);
-            if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
-                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
-            }else{
-                $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => true);
-            }
-
-            $logMessage = [
-                'action' =>'sommelier_checking_wine_availability',
-                'body' => [
-                    'order_id'=>$request['order_id'],
-                    'message'=>$wineAvailabilityStatus
-                ]
-            ];
-            $this->orderLogger->log($logMessage);
+            $this->getWineAvailabilityStatusOnOrderDate($wineId, $orderDate);
+            $this->orderLogger->logAction('sommelier_checking_wine_availability',$request['order_id'], $request);
         }
 
         $this->response = array('order_id' =>$request['order_id'], 'wine_status' => $wineAvailabilityStatus);
@@ -77,28 +64,20 @@ class WaiterRequestHandler implements ConsumerInterface
 
     public function sendProcessedOrder(){
         $this->responseSender->addProcessedOrderToQueue(json_encode($this->response));
-        $logMessage = [
-            'action' =>'sommelier_add_response_to_queue',
-            'body' => [
-                'order_id'=>$this->response['order_id'],
-                'message'=>$this->response
-            ]
-        ];
-        $this->orderLogger->log($logMessage);
+        $this->orderLogger->logAction('sommelier_add_response_to_queue',$this->response['order_id'], $this->response);
     }
 
     private function getWineNameById($wineId){
         return $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId])->getTitle();
     }
 
-    private function logWaiterRequestHandling($waiterRequest){
-        $logMessage = [
-            'action' =>'sommelier_received_order',
-            'body' => [
-                'order_id' => $waiterRequest['order_id'],
-                'message'=>$waiterRequest
-            ]
-        ];
-        $this->orderLogger->log($logMessage);
+
+    private function getWineAvailabilityStatusOnOrderDate($wineId, $orderDate){
+        $wineName = $this->getWineNameById($wineId);
+        if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
+            $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
+        }else{
+            $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => true);
+        }
     }
 }
