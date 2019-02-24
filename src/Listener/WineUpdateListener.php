@@ -13,23 +13,25 @@ use App\Event\WineUpdateEvent;
 use App\Log\WineUpdateLogger;
 use App\Service\SommelierService\SommelierResponseHandler;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class WineUpdateListener implements EventSubscriberInterface
 {
     private  $producer;
-    private  $wineLogger;
+    private  $wineUpdateLogger;
 
     public function __construct(ProducerInterface $producer, WineUpdateLogger $wineUpdateLogger)
     {
         $this->producer = $producer;
+        $this->wineUpdateLogger = $wineUpdateLogger;
     }
 
     public static function getSubscribedEvents()
     {
         return array(
-            'postUpdate',
+            Events::postUpdate,
         );
     }
 
@@ -37,6 +39,7 @@ class WineUpdateListener implements EventSubscriberInterface
     {
         $object = $args->getObject();
         $changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($object);
+
         if ($object instanceof Wine) {
             if ($this->wineAvailableDateUpdated($changes)) {
                 $this->addAvailableWineInfoToQueueForWaiter($object);
@@ -58,6 +61,7 @@ class WineUpdateListener implements EventSubscriberInterface
                 return $dateChanged;
             }
         }
+
         return $dateChanged;
     }
 
@@ -76,6 +80,6 @@ class WineUpdateListener implements EventSubscriberInterface
                 'message'=>$message
             ]
         ];
-        $this->wineLogger->log($logMessage);
+        $this->wineUpdateLogger->log($logMessage);
     }
 }

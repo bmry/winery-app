@@ -9,7 +9,7 @@
 namespace App\Log;
 
 
-use App\Entity\wineLog;
+use App\Entity\WineLog;
 use Doctrine\ORM\EntityManagerInterface;
 
 

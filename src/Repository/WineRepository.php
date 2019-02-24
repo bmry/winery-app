@@ -19,14 +19,12 @@ class WineRepository extends ServiceEntityRepository
         parent::__construct($registry, Wine::class);
     }
 
-    public function getWineByNameAndDate($wineName, \DateTime $dateTime){
-
+    public function getWineByNameAndDate($wineName, $dateTime){
         return $this->createQueryBuilder('w')
             ->where('w.title = :name')
-            ->andWhere('w.publishDate LIKE  :date')
+            ->andWhere('w.publishDate LIKE :date')
             ->setParameter('name', $wineName)
-            ->setParameter('date', $dateTime->format('Y-m-d'))
-            ->getQuery()
-            ->getSingleResult();
+            ->setParameter('date', $dateTime->format('Y-m-d').'%')
+            ->getQuery()->getResult();
     }
 }

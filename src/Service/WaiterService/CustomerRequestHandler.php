@@ -45,7 +45,7 @@ class CustomerRequestHandler
         $this->producer->publish(json_encode($message),'order_request');
 
         $logMessage = [
-            'action' =>'order_sent_to_somellier',
+            'action' =>'order_forwarded_to_somellier',
             'body' => [
                 'order_id' => $order->getId(),
                 'message'=>$message

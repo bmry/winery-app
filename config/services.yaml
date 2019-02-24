@@ -28,6 +28,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
+    App\Listener\WineUpdateListener:
+        tags:
+        - { name: doctrine.event_listener, event: postUpdate }
 
     OldSound\RabbitMqBundle\RabbitMq\ProducerInterface: '@old_sound_rabbit_mq.order_create_producer'

@@ -26,13 +26,16 @@ class WineAvailabilityNotifier implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $wineInfo = json_decode($msg->body);
-        $wineId = $wineInfo['wine_id'];
-        $wine =  $this->getWine($wineId);
-        $orders = $this->getOrdersWithWineWhenDuringWineUnavailablePerid($wine);
-
-        foreach ($orders as $order){
-           // $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
-        }
+        dump($wineInfo);
+        exit;
+//        $wineId = $wineInfo['wine_id'];
+//        $wine =  $this->getWine($wineId);
+//        $orders = $this->getOrdersWithWineWhenDuringWineUnavailablePerid($wine);
+//
+//        foreach ($orders as $order){
+//            dump($order->getCustomerContactEmail());
+//           // $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
+//        }
     }
 
     /*
@@ -62,7 +65,7 @@ class WineAvailabilityNotifier implements ConsumerInterface
 
     private function sendMail($message){
 
-        $mail = $this->getMailBody($message);
+        $message = $this->getMailBody($message);
         $this->mailer->send($message);
     }
 

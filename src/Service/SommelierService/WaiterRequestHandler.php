@@ -31,6 +31,8 @@ class WaiterRequestHandler implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $waiterRequest = json_decode($msg->body, true);
+
+
         $logMessage = [
             'action' =>'sommelier_received_order',
             'body' => [
@@ -52,6 +54,7 @@ class WaiterRequestHandler implements ConsumerInterface
         $wineAvailabilityStatus = [];
         $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $request['order_id']]);
         $orderDate = $order->getCreatedAt();
+
         foreach ($wineIds as $wineId){
             $wineName = $this->getWineNameById($wineId);
             if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
