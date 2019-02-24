@@ -35,7 +35,7 @@ class OrderRepository extends ServiceEntityRepository
     public function getOrdersWithUnavailableResponseForWineByDate(Wine $wine,$wineLastAvailableDate, $winePenultimateAvailableDate ){
         return $this->createQueryBuilder('o')
             ->join('o.orderItems', 't')
-            ->where('t.available =: available')
+            ->where('t.available = :available')
             ->andWhere('t.wine = :wine')
             ->andWhere('o.createdAt > :winePenultimateAvailableDate')
             ->andWhere('o.createdAt < :wineLastAvailableDate')

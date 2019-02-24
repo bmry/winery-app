@@ -18,13 +18,13 @@ class WineLogRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, OrderLog::class);
+        parent::__construct($registry, WineLog::class);
     }
 
-    public function getWineLastTwoUpdate($wine): ?WineLog
+    public function getWineLastTwoUpdate($wine)
     {
         return $this->createQueryBuilder('w')
-            ->where('w.log_action =: action')
+            ->where('w.log_action = :action')
             ->andWhere('w.wine = :wine')
             ->setParameter('action', 'DATE_UPDATE')
             ->setParameter('wine', $wine)

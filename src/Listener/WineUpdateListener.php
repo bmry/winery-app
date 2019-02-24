@@ -41,8 +41,11 @@ class WineUpdateListener implements EventSubscriberInterface
         $changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($object);
 
         if ($object instanceof Wine) {
+            $wine = $object;
             if ($this->wineAvailableDateUpdated($changes)) {
-                $this->addAvailableWineInfoToQueueForWaiter($object);
+                if($this->wineAvailableDateIsToday($wine)){
+                    $this->addAvailableWineInfoToQueueForWaiter($wine);
+                }
             }
         }
     }
@@ -82,4 +85,19 @@ class WineUpdateListener implements EventSubscriberInterface
         ];
         $this->wineUpdateLogger->log($logMessage);
     }
+
+    private function wineAvailableDateIsToday(Wine $wine){
+        $isToday = false;
+        $today = new \DateTime();
+        $today = $today->format('Y-m-d');
+        $wineAvailableDate = $wine->getPublishDate();
+        if($today == $wineAvailableDate->format('Y-m-d')){
+            $isToday = true;
+        }
+
+        return $isToday;
+
+    }
+
+
 }

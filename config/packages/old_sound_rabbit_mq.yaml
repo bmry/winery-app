@@ -43,7 +43,7 @@ old_sound_rabbit_mq:
                 name: wine_update
                 routing_keys:
                     - 'wine_update'
-            callback:      App\Service\WaiterService\WaiterResponseSender
+            callback:      App\Service\WaiterService\WineAvailabilityNotifier
 #    producers:
 #        # use 'old_sound_rabbit_mq.task_producer' service to send data.
 #        task:

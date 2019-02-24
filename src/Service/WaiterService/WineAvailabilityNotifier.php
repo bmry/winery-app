@@ -27,15 +27,15 @@ class WineAvailabilityNotifier implements ConsumerInterface
     {
         $wineInfo = json_decode($msg->body);
         dump($wineInfo);
-        exit;
-//        $wineId = $wineInfo['wine_id'];
-//        $wine =  $this->getWine($wineId);
-//        $orders = $this->getOrdersWithWineWhenDuringWineUnavailablePerid($wine);
-//
-//        foreach ($orders as $order){
-//            dump($order->getCustomerContactEmail());
-//           // $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
-//        }
+
+        $wineId = $wineInfo->wine_id;
+        $wine =  $this->getWine($wineId);
+        $orders = $this->getOrdersWithWineWhenDuringWineUnavailablePerid($wine);
+        dump($orders);
+        foreach ($orders as $order){
+            dump($order->getCustomerContactEmail());
+           // $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
+        }
     }
 
     /*
@@ -45,6 +45,7 @@ class WineAvailabilityNotifier implements ConsumerInterface
     private function getOrdersWithWineWhenDuringWineUnavailablePerid($wine){
 
         $wineLastTwoAvailableDateUpdateLog = $this->entityManager->getRepository('App\Entity\WineLog')->getWineLastTwoUpdate($wine);
+        dump($wineLastTwoAvailableDateUpdateLog);
         $lastWineAvailableDate = $wineLastTwoAvailableDateUpdateLog[1];
         $winePenultimateAvailableDate = $wineLastTwoAvailableDateUpdateLog[0];
 
@@ -52,7 +53,7 @@ class WineAvailabilityNotifier implements ConsumerInterface
     }
 
     private function getWine($wineId){
-        return $this->entityManager->getRepository('Wine')->findOneBy(['id' => $wineId]);
+        return $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId]);
     }
 
 
