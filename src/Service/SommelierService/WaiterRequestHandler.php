@@ -31,19 +31,9 @@ class WaiterRequestHandler implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $waiterRequest = json_decode($msg->body, true);
-
-
-        $logMessage = [
-            'action' =>'sommelier_received_order',
-            'body' => [
-                'order_id' => $waiterRequest['order_id'],
-                'message'=>$waiterRequest
-            ]
-        ];
-        $this->orderLogger->log($logMessage);
-
         $this->processWaiterRequest($waiterRequest);
         $this->sendProcessedOrder();
+        $this->logWaiterRequestHandling($waiterRequest);
     }
 
     private function processWaiterRequest($request)
@@ -99,5 +89,16 @@ class WaiterRequestHandler implements ConsumerInterface
 
     private function getWineNameById($wineId){
         return $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId])->getTitle();
+    }
+
+    private function logWaiterRequestHandling($waiterRequest){
+        $logMessage = [
+            'action' =>'sommelier_received_order',
+            'body' => [
+                'order_id' => $waiterRequest['order_id'],
+                'message'=>$waiterRequest
+            ]
+        ];
+        $this->orderLogger->log($logMessage);
     }
 }
