@@ -71,15 +71,7 @@ class WineUpdateListener implements EventSubscriberInterface
         ];
 
         $this->producer->publish(json_encode($message),'wine_update');
-
-        $logMessage = [
-            'action' =>'DATE_UPDATE',
-            'body' => [
-                'wine_id' => $wine->getId(),
-                'message'=>$message
-            ]
-        ];
-        $this->wineUpdateLogger->log($logMessage);
+        $this->wineUpdateLogger->logAction('DATE_UPDATE',$wine->getId(), $message);
     }
 
     private function wineAvailableDateIsToday(Wine $wine){

@@ -13,7 +13,7 @@ use App\Entity\WineLog;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class WineUpdateLogger
+class WineUpdateLogger extends Logger
 {
     private $entityManager;
 
@@ -22,7 +22,7 @@ class WineUpdateLogger
         $this->entityManager = $entityManager;
     }
 
-    public  function log($message) {
+    public  function persistLogRecordToDB($message) {
 
         $wineLog = new WineLog();
         $wineLog->setLogAction($message['action']);
