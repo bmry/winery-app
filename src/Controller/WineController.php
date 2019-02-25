@@ -47,7 +47,7 @@ class WineController  extends AbstractController
     }
 
     /**
-     * @Route("/wine/list", name="wine_list")
+     * @Route("sommelier", name="wine_list")
      */
     public function listAction(){
 

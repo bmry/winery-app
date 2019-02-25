@@ -1,6 +1,6 @@
 **WINERY APP**
 
-This is a application developed to model the communication between Customers, Waiter and Sommelier
+This is a application is developed to model the communication between Customers, Waiter and Sommelier.
 
 **TECHNOLOGY STACK**
 
@@ -37,19 +37,25 @@ This is a application developed to model the communication between Customers, Wa
 
 - **Request Form** - This is where customer pick their wine of choice
     Customer can request for multiple wines
+    ![Wine Request Fome](https://docs.google.com/uc?id=1fV-WsBSjfM-n2HdbPTKhud0hhT-y-nOn)
+    ![Wine Request Fome](https://docs.google.com/uc?id=1I-DJBAzUJ6I2oDXvnS2NmfhYsnW-MUUr)
     
-    ![Wine Request Fome](https://docs.google.com/uc?id=1JaYXxEMk_hJD44-wHAQqEvPPwjvyZtd5)
 - **Waiter Dashboard** - On the  waiter dashboard the waiter can see orders.
     - The waiter can do the following on their dashboard:
         -   List Orders
         -   View Order Logs
         -   View Order Items/ Status
+        https://drive.google.com/file/d/184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG/view?usp=sharing
+     ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
+     ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG)   
   - View Order Item 
 - **Sommelier Dashboard**
   - The sommelier can do the following:
     -   List Wine
     -   Create New Wine Record
     -   Update Wine Publish Date
+
+  ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
 
 **ADDITIONAL FEATURE:**
 -   If a customer request for a wine and the wine is unavailable on that day, next time it is available the customer get notified of the wine availability.
