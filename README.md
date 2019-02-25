@@ -12,32 +12,64 @@ This is a application is developed to model the communication between Customers,
 
 
 **HOW TO INSTALL** <br/>
-**NOTE**: Please download RabbitMQ from [Rabbit MQ ](https://www.rabbitmq.com/download.html) and install.
+
+1. **NOTE**: Please download RabbitMQ from [Rabbit MQ ](https://www.rabbitmq.com/download.html) and install.
 
 >ENSURE RABBITMQ IS RUNNING ON Port **5672** <br/>
 
-``1.    Run composer install``  <br/>
+2.  **START APPLICATION**
+
+    **WINDOW USER**
+    
+    -   Run ``start-app.bat``
+    
+    **LINUX USER**
+         
+        RUN THE FOLLOWING COMMANDS
+        -       php bin/console rabbitmq:setup-fabric
+        -       php bin/console rabbitmq:consumer order_create_response
+        -       php bin/console rabbitmq:consumer order_create_request
+        -       bin/console rabbitmq:consumer wine_update
+        -       php bin/console server:run
+        -       php bin/console doctrine:schema:update --force
+        -       php bin/console app:load_rss_feed
+
+
 **Running the above command will download the following:<br/>**
 >- Install application dependencies<br/>
 >-   Create Queue and Exchange<br/>
 >-   Start consumers.
 >-  Get Wine From RSS Feed and Insert into DB
 
+
+
+
+
 **\*NOTE\* YOU CAN MANUALLY GET WINE INVENTORY BY RUNNING**
 
 Run the command in the project folder root directory
 > php bin/console app:load_rss_feed
 
+
+HOW TO TEST IF  APP IS WORKING
+-   Request for a wine or multiple wine on **http://127.0.0.1:8000**
+-   Then make go to **http://l27.0.0.1:8080/waiter.
+-   If order has been processed the order status will be **PROCESSED**
+-   Click on View Order Item button to see if requested wine is available or not.
+-   You can make wine available for the day by editing wine publish date on **http://127.0.0.1:8000/sommelier**
+
+
+
 **Application URL**
 
 **Book Wine**
--   **Run on your browser** `http://127.0.0.1:8000`
+-       http://127.0.0.1:8000
 
 **Waiter Admin Dashboard:**
--   `http://127.0.0.1/waiter`
+-       http://127.0.0.1/waiter
  
 **Sommelier Admin Dashboard:**
--   `http://127.0.0.1/sommelier`
+-       http://127.0.0.1/sommelier
     
 **FEATURE**
 
