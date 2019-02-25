@@ -30,9 +30,16 @@ class WineLog
     private $wine;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $oldPublishDate;
+
+    /**
      * @ORM\Column(type="json_array")
      */
     private $message;
+
+
 
     public function getId(): ?int
     {
@@ -71,6 +78,18 @@ class WineLog
     public function setWine(?Wine $wine): self
     {
         $this->wine = $wine;
+
+        return $this;
+    }
+
+    public function getOldPublishDate(): ?\DateTimeInterface
+    {
+        return $this->oldPublishDate;
+    }
+
+    public function setOldPublishDate(\DateTimeInterface $oldPublishDate): self
+    {
+        $this->oldPublishDate = $oldPublishDate;
 
         return $this;
     }

@@ -53,9 +53,11 @@
 
         <!-- Main Content -->
         <div id="content">
+            <div class="text-center">
+                {{ include('flash_message.html.twig') }}
+            </div>
 
             {% block body %}
-
             {% endblock %}
         </div>
         <footer class="sticky-footer bg-white">

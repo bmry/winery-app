@@ -10,7 +10,6 @@ namespace App\Service\WaiterService;
 
 
 use App\Entity\Order;
-use App\Entity\OrderItem;
 use App\Event\OrderProcessedEvent;
 use App\Log\OrderLogger;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,7 +35,6 @@ class WaiterResponseSender implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $this->sommelierResponse =  json_decode($msg->body, true);
-
         $orderUpdate = $this->updatedOrderBasedOnSommelierResponse($this->sommelierResponse);
         $this->updateOrderItemAvailability($orderUpdate);
         $this->broadcastOrderUpdate($orderUpdate);

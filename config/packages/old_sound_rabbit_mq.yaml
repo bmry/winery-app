@@ -3,7 +3,6 @@ parameters:
     rabbitmq.port: 5672
     rabbitmq.user: guest
     rabbitmq.pswd: guest
-    rabbitmq.rpc.server: sommellier_service
 
 old_sound_rabbit_mq:
     connections:

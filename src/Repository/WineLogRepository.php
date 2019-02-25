@@ -21,16 +21,23 @@ class WineLogRepository extends ServiceEntityRepository
         parent::__construct($registry, WineLog::class);
     }
 
-    public function getWineLastTwoUpdate($wine)
+    public function getFromWineLogLastTimeWineWasAvailableBeforeNewUpdate(Wine $wine)
     {
-        return $this->createQueryBuilder('w')
+
+        $newPublishDate = $wine->getPublishDate();
+        $result = $this->createQueryBuilder('w')
             ->where('w.log_action = :action')
             ->andWhere('w.wine = :wine')
+            ->andWhere('w.oldPublishDate IS NOT NULL')
+            ->andWhere('w.oldPublishDate < :newPublishDate')
             ->setParameter('action', 'DATE_UPDATE')
             ->setParameter('wine', $wine)
+            ->setParameter('newPublishDate', $newPublishDate)
             ->orderBy('w.id', 'DESC')
-            ->setMaxResults(2)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult();
+
+        return $result[0];
     }
 }

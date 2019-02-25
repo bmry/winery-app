@@ -26,15 +26,18 @@ class WineAvailabilityNotifier implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $wineInfo = json_decode($msg->body);
-        dump($wineInfo);
+
 
         $wineId = $wineInfo->wine_id;
         $wine =  $this->getWine($wineId);
-        $orders = $this->getOrdersWithWineWhenDuringWineUnavailablePerid($wine);
-        dump($orders);
+        $orders = $this->getFromLogOrdersWithUnavailableWineBeforeNow($wine);
+        dump(count($orders));
         foreach ($orders as $order){
-            dump($order->getCustomerContactEmail());
-           // $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
+            /*
+             * NOTE: This is intened to send a message to the customer but it is commennted out
+             * because there is no mail server configured in this application.
+             */
+           $this->notifyCustomerViaEmailOfWineAvailability($order->getCustomerContactEmail(),$wine);
         }
     }
 
@@ -42,14 +45,14 @@ class WineAvailabilityNotifier implements ConsumerInterface
      * We check for check for customer who have made request for wine between
      * last available date and new available date.
      */
-    private function getOrdersWithWineWhenDuringWineUnavailablePerid($wine){
+    private function getFromLogOrdersWithUnavailableWineBeforeNow($wine){
+        $lastWineAvailableDateLogBeforeNewUpdate = $this->entityManager->getRepository('App\Entity\WineLog')->getFromWineLogLastTimeWineWasAvailableBeforeNewUpdate($wine);
 
-        $wineLastTwoAvailableDateUpdateLog = $this->entityManager->getRepository('App\Entity\WineLog')->getWineLastTwoUpdate($wine);
-        dump($wineLastTwoAvailableDateUpdateLog);
-        $lastWineAvailableDate = $wineLastTwoAvailableDateUpdateLog[1];
-        $winePenultimateAvailableDate = $wineLastTwoAvailableDateUpdateLog[0];
+        if($lastWineAvailableDateLogBeforeNewUpdate){
 
-        return $this->entityManager->getRepository('App\Entity\Order')->getOrdersWithUnavailableResponseForWineByDate($wine, $lastWineAvailableDate, $winePenultimateAvailableDate);
+            $lastTimeWineWasAvailable = $lastWineAvailableDateLogBeforeNewUpdate->getOldPublishDate();
+            return $this->entityManager->getRepository('App\Entity\Order')->getOrdersWithUnavailableResponseForWineByDate($wine, $lastTimeWineWasAvailable);
+        }
     }
 
     private function getWine($wineId){

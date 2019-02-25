@@ -18,10 +18,10 @@
             <td>
                 {% if orderItem.available  %}
                     Available
-                {% elseif false == orderItem.available %}
-                    Not Available
-                {% else %}
+                {% elseif orderItem.available is null %}
                     Unknown
+                {% else %}
+                    Not Available
                 {% endif %}
             </td>
         </tr>

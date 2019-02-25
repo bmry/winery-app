@@ -38,18 +38,17 @@ class WaiterRequestHandler implements ConsumerInterface
 
     private function processWaiterRequest($request)
     {
-        $logMessage = ['action' =>'sommelier_start_order_processing', 'body' => ['order_id'=>$request['order_id'],'message'=>$request]];
-        $this->orderLogger->log($logMessage);
+        $this->orderLogger->logAction('sommelier_start_order_processing',$request['order_id'],$request);
         $wineIds = $request['items'];
         $wineAvailabilityStatus = [];
         $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $request['order_id']]);
         $orderDate = $order->getCreatedAt();
 
         foreach ($wineIds as $wineId){
-            $this->getWineAvailabilityStatusOnOrderDate($wineId, $orderDate);
+            $wineAvailabilityStatus[] = $this->getWineAvailabilityStatusOnOrderDate($wineId, $orderDate);
             $this->orderLogger->logAction('sommelier_checking_wine_availability',$request['order_id'], $request);
         }
-
+        dump($wineAvailabilityStatus);
         $this->response = array('order_id' =>$request['order_id'], 'wine_status' => $wineAvailabilityStatus);
     }
 
@@ -75,9 +74,11 @@ class WaiterRequestHandler implements ConsumerInterface
     private function getWineAvailabilityStatusOnOrderDate($wineId, $orderDate){
         $wineName = $this->getWineNameById($wineId);
         if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
-            $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => false);
+            $wineAvailabilityStatus = array('wineName' => $wineName, 'availabilityStatus' => false);
         }else{
-            $wineAvailabilityStatus[] = array('wineName' => $wineName, 'availabilityStatus' => true);
+            $wineAvailabilityStatus = array('wineName' => $wineName, 'availabilityStatus' => true);
         }
+
+        return $wineAvailabilityStatus;
     }
 }

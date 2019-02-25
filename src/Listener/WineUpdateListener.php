@@ -37,31 +37,25 @@ class WineUpdateListener implements EventSubscriberInterface
     {
         $object = $args->getObject();
         $changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($object);
-        if(!$object instanceof Wine){
-            return false;
-        }
-        $wine = $object;
-        if ($this->wineAvailableDateUpdated($changes)) {
-            $this->notifyWaiterIfWineIsAvailableToday($wine);
+        if($object instanceof Wine) {
+
+            $wine = $object;
+            if ($this->wineAvailableDateUpdated($changes)) {
+                $this->notifyWaiterIfWineIsAvailableToday($wine);
+                $this->logWineAvailableDateChange($wine, $changes);
+            }
         }
     }
 
     private function wineAvailableDateUpdated($changes)
     {
-        $dateChanged = false;
-        $dateChanges = $changes['publishDate'];
-        $oldAvailableDate = $changes['publishDate'][0];
-        $newAvailableDate = $changes['publishDate'][1];
-        if (!$dateChanges) {
-            return $dateChanged;
-        } else {
-            if ($newAvailableDate > $oldAvailableDate) {
-                $dateChanged = true;
-                return $dateChanged;
-            }
+        $dateIsChanged = false;
+
+        if(isset($changes['publishDate'])){
+            $dateIsChanged = true;
         }
 
-        return $dateChanged;
+        return $dateIsChanged;
     }
 
     private function addAvailableWineInfoToQueueForWaiter(Wine $wine){
@@ -69,9 +63,8 @@ class WineUpdateListener implements EventSubscriberInterface
             'wine_id' => $wine->getId(),
             'day_of_update' => $wine->getPublishDate()
         ];
-
+        $this->wineUpdateLogger->logAction('WINE_INFO_ADDED_TO_QUEUE',$wine->getId(), $message);
         $this->producer->publish(json_encode($message),'wine_update');
-        $this->wineUpdateLogger->logAction('DATE_UPDATE',$wine->getId(), $message);
     }
 
     private function wineAvailableDateIsToday(Wine $wine){
@@ -88,10 +81,17 @@ class WineUpdateListener implements EventSubscriberInterface
     }
 
     private function notifyWaiterIfWineIsAvailableToday(Wine $wine){
+
         if ($this->wineAvailableDateIsToday($wine)){
             $this->addAvailableWineInfoToQueueForWaiter($wine);
         }
     }
 
-
+    private function logWineAvailableDateChange($wine, $changes){
+        $message = ['changes' => $changes];
+        if ($this->wineAvailableDateIsToday($wine)) {
+            $message['old_publish_date'] = $changes['publishDate'][0];
+        }
+        $this->wineUpdateLogger->logAction('DATE_UPDATE', $wine->getId(), $message);
+    }
 }

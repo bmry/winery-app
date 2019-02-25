@@ -19,13 +19,14 @@ class SommelierResponseHandler
 {
     private  $entityManager;
     private  $orderLogger;
+
+
     public function __construct(EntityManagerInterface $entityManager, ProducerInterface $producer, OrderLogger $orderLogger)
     {
         $this->entityManager = $entityManager;
         $this->producer = $producer;
         $this->orderLogger = $orderLogger;
     }
-
 
     public function addProcessedOrderToQueue($processedOrder){
         $message = json_decode($processedOrder);

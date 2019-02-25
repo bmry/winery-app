@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 
@@ -55,10 +56,15 @@ class Wine
      */
     private $category_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\WineLog", mappedBy="wine",fetch="EAGER",orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $wineLogs;
 
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->wineLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,4 +156,12 @@ class Wine
         return $this;
     }
 
+
+    /**
+     * @return Collection|WineLog[]
+     */
+    public function getWineLogs(): Collection
+    {
+        return $this->wineLogs;
+    }
 }

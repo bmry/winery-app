@@ -23,11 +23,14 @@ class WineUpdateLogger extends Logger
     }
 
     public  function persistLogRecordToDB($message) {
-
         $wineLog = new WineLog();
         $wineLog->setLogAction($message['action']);
         $wineLog->setMessage(json_encode($message['body']));
-        $wineId = $message['body']['wine_id'];
+
+        if(isset($message['body']['message']['old_publish_date'])){
+            $wineLog->setOldPublishDate($message['body']['message']['old_publish_date']);
+        }
+        $wineId = $message['body']['id'];
         $wine = $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId]);
         $wineLog->setWine($wine);
         $this->entityManager->persist($wineLog);

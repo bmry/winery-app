@@ -1,4 +1,4 @@
-{% extends 'admin_layout.html.twig' %}
+{% extends 'sommelier_layout.html.twig' %}
 
 {% block body %}
     <div class="container-fluid">
@@ -34,12 +34,13 @@
                                     <td>{{ wine.description }}</td>
                                     <td>{{ wine.link }}</td>
                                     <td>
-                                        <a class="btn btn-info btn-icon-split btn-sm"  href="{{ path('edit_wine',{id:wine.id}) }}" >
+                                        <a class="btn btn-primary btn-icon-split btn-sm"  href="{{ path('edit_wine',{id:wine.id}) }}" >
                                             <span class="icon text-white-50">
-                                                <i class="fas fa-info-circle"></i>
+                                                <i class="fas fa-edit"></i>
                                             </span>
-                                            <span class="text">View Order Items</span>
+                                            <span class="text">Edit</span>
                                         </a>
+
                                     </td>
                                 </tr>
                             {% endfor %}

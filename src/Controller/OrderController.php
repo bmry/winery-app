@@ -27,7 +27,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order", name="new_order")
+     * @Route("/", name="new_order")
      */
     public function newAction(Request $request)
     {
@@ -42,6 +42,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+            $order->setCreatedAt(new  \DateTime(date('Y-m-24')));
             $em->persist($order);
             $em->flush();
             $this->addFlash('success', 'Your order has been received and its being processed. We will get back to you shortly via the email address you provided.');
@@ -54,7 +55,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order/list", name="order_list")
+     * @Route("waiter_dashboard", name="order_list")
      */
     public function listAction(){
 

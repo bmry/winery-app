@@ -27,7 +27,7 @@ class OrderLogger extends Logger
         $orderLog = new OrderLog();
         $orderLog->setLogAction($message['action']);
         $orderLog->setMessage(json_encode($message['body']));
-        $orderId = $message['body']['order_id'];
+        $orderId = $message['body']['id'];
         $order = $this->entityManager->getRepository('App\Entity\Order')->findOneBy(['id' => $orderId]);
         $orderLog->setOrderId($order);
         $this->entityManager->persist($orderLog);
