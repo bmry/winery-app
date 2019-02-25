@@ -53,9 +53,10 @@ This is a application is developed to model the communication between Customers,
   - The sommelier can do the following:
     -   List Wine
     -   Create New Wine Record
-    -   Update Wine Publish Date
-
-  ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
+    -   Update Wine
+  ![Wine Request Fome](https://docs.google.com/uc?id=1iA64WBH1qVpgSLVcIf5ZALkHrbBpEaJM)   
+  ![Wine Request Fome](https://docs.google.com/uc?id=1sHU2zkxmvOsGt2QTMQ3hzpjjyitWk4iF)   
+  ![Wine Request Fome](https://docs.google.com/uc?id=1hT_hUAp9nLSnGLH_dOZwiYDoNtRDyt8A)   
 
 **ADDITIONAL FEATURE:**
 -   If a customer request for a wine and the wine is unavailable on that day, next time it is available the customer get notified of the wine availability.
