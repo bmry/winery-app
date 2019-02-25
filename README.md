@@ -7,6 +7,7 @@ This is a application is developed to model the communication between Customers,
 >1.  Symfony 4 Framework <br/>
 >2.  SQL-LITE Database` <br/>
 >3. RABBITMQ`<br/>
+>4. PHP 7
 
 
 
@@ -20,7 +21,12 @@ This is a application is developed to model the communication between Customers,
 >- Install application dependencies<br/>
 >-   Create Queue and Exchange<br/>
 >-   Start consumers.
+>-  Get Wine From RSS Feed and Insert into DB
 
+**\*NOTE\* YOU CAN MANUALLY GET WINE INVENTORY BY RUNNING**
+
+Run the command in the project folder root directory
+> php bin/console app:load_rss_feed
 
 **Application URL**
 
@@ -45,7 +51,7 @@ This is a application is developed to model the communication between Customers,
         -   List Orders
         -   View Order Logs
         -   View Order Items/ Status
-        https://drive.google.com/file/d/184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG/view?usp=sharing
+       
      ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
      ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG)   
   - View Order Item 
