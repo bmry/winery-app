@@ -32,15 +32,13 @@ This is a application developed to model the communication between Customers, Wa
  
 **Sommelier Admin Dashboard:**
 -   `http://127.0.0.1/sommelier`
-
     
 **FEATURE**
 
 - **Request Form** - This is where customer pick their wine of choice
     Customer can request for multiple wines
     
-    ![Wine Request Fome](https://doc-14-b4-docs.googleusercontent.com/docs/securesc/2vcipqvrreusg54jhe6jlm78akbvpm4k/59luqaecs2ji8nt8q504eq3qaqev9jsa/1551124800000/15860053536152095633/15860053536152095633/1JaYXxEMk_hJD44-wHAQqEvPPwjvyZtd5)
-    
+    ![Wine Request Fome](https://docs.google.com/uc?id=1JaYXxEMk_hJD44-wHAQqEvPPwjvyZtd5)
 - **Waiter Dashboard** - On the  waiter dashboard the waiter can see orders.
     - The waiter can do the following on their dashboard:
         -   List Orders
