@@ -3,8 +3,7 @@
 -   **I intended to dockerise this application but I had issues with running docker on my machine which would have made a lot easier to run.**
 -   **I also intended to deploy each waiter service as in its own container so that they can scale independently when request increases**
 -   **I planned to start the application with two instance of waiter service and one instance of sommelier as described in the exercise.**
-
-
+-   **Due to limited time I was not able to add  functional and unit Test**
 
 
 **WINERY APP**
