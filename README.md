@@ -1,3 +1,12 @@
+**NOTE: 
+
+-   **I intended to dockerise this application but I had issues with running docker on my machine which would have made a lot easier to run.**
+-   **I also intended to deploy each waiter service as in its own container so that they can scale independently when request increases**
+-   **I planned to start the application with two instance of waiter service and one instance of sommelier as described in the exercise.**
+
+
+
+
 **WINERY APP**
 
 This is a application is developed to model the communication between Customers, Waiter and Sommelier.
@@ -19,13 +28,15 @@ This is a application is developed to model the communication between Customers,
 
 2.  **START APPLICATION**
 
-    **WINDOW USER**
+    i.  Change To App Root Directory.
+    
+    ii. **WINDOW USER**
     
     -   Run ``start-app.bat``
     
     **LINUX USER**
          
-        RUN THE FOLLOWING COMMANDS
+        RUN THE FOLLOWING COMMANDS IN SEPARATE TERMINAL
         -       php bin/console rabbitmq:setup-fabric
         -       php bin/console rabbitmq:consumer order_create_response
         -       php bin/console rabbitmq:consumer order_create_request
@@ -34,15 +45,11 @@ This is a application is developed to model the communication between Customers,
         -       php bin/console doctrine:schema:update --force
         -       php bin/console app:load_rss_feed
 
-
 **Running the above command will download the following:<br/>**
 >- Install application dependencies<br/>
 >-   Create Queue and Exchange<br/>
 >-   Start consumers.
 >-  Get Wine From RSS Feed and Insert into DB
-
-
-
 
 
 **\*NOTE\* YOU CAN MANUALLY GET WINE INVENTORY BY RUNNING**
