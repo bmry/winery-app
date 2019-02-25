@@ -66,10 +66,22 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "php bin/console server:run",
+            "php bin/console rabbitmq:setup-fabric",
+            "php bin/console rabbitmq:consumer order_create_response",
+            "php bin/console rabbitmq:consumer order_create_request",
+            "bin/console rabbitmq:consumer wine_update"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "php bin/console server:run",
+            "php bin/console rabbitmq:setup-fabric",
+            "php bin/console rabbitmq:consumer order_create_response",
+            "php bin/console rabbitmq:consumer order_create_request",
+            "bin/console rabbitmq:consumer wine_update"
+
+
         ]
     },
     "conflict": {
