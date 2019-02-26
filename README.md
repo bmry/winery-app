@@ -1,10 +1,8 @@
 **NOTE: 
 
--   **I intended to dockerise this application but I had issues with running docker on my machine which would have made a lot easier to run.**
--   **I also intended to deploy each waiter service as in its own container so that they can scale independently when request increases**
+-   **In Production I will decompose the application into two service and deploy each service per container so that they can scale independently when requests increases**
 -   **I planned to start the application with two instance of waiter service and one instance of sommelier as described in the exercise.**
--   **Due to limited time I was not able to add  functional and unit Test**
-
+-   **Due to limited time I was not able to add  functional and unit Test but I would not deploy into production without tests to cover edge cases.**
 
 **WINERY APP**
 
@@ -16,7 +14,7 @@ This is a application is developed to model the communication between Customers,
 >2.  SQL-LITE Database` <br/>
 >3. RABBITMQ`<br/>
 >4. PHP 7
-
+>5. DOCKER
 
 
 **HOW TO INSTALL** <br/>
