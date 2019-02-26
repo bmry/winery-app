@@ -18,8 +18,9 @@ This is a application is developed to model the communication between Customers,
 
 
 **HOW TO INSTALL** <br/>
+1. Run composer install
 
-1. START RABBITMQ
+2. START RABBITMQ
 
     **WINDOW USER**
             
@@ -31,7 +32,7 @@ This is a application is developed to model the communication between Customers,
            
 >ENSURE RABBITMQ IS RUNNING ON Port **5672** <br/>
 
-2.  **START APPLICATION**
+3.  **START APPLICATION**
 
     i.  Change To App Root Directory.
     
