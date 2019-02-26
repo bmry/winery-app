@@ -55,4 +55,19 @@ class WineController  extends AbstractController
         return $this->render('Wine/list.html.twig', ['wines' => $wines]);
     }
 
+    /**
+     * @Route("make_available/{id}", name="make_available")
+     */
+    public function makeAvailable($id){
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->getRepository('App\Entity\Wine')->findOneBy(['id' => $id]);
+        $wine->setPublishDate(new \DateTime());
+        $em->persist($wine);
+        $em->flush();
+
+        $this->addFlash('success', 'Wine Now Available For the Day');
+        return $this->redirect($this->generateUrl('wine_list'));
+
+    }
+
 }

@@ -162,6 +162,21 @@
         });
     }
 </script>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+
+    function makeAvailable(buttonId){
+        var makeAvailableBtn = $('#makeAvailableButton-'+buttonId);
+        var url = makeAvailableBtn.attr('rel');
+        bootbox.confirm("Are you want to make this wine available for the day ?.", function(result){
+            if(result == true){
+                window.location.href = url ;
+            }
+        });
+    }
+</script>
 
 <!-- Logout Modal-->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

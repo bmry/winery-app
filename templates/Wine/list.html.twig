@@ -17,9 +17,7 @@
                                 <th>Name</th>
                                 <th>Author</th>
                                 <th>Publish Date</th>
-                                <th>GUID</th>
                                 <th>Description</th>
-                                <th>Link</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -30,15 +28,19 @@
                                     <td>{{ wine.title }}</td>
                                     <td>{{ wine.author }}</td>
                                     <td>{{ wine.publishDate | date('d F, Y') }}</td>
-                                    <td>{{ wine.guid }}</td>
                                     <td>{{ wine.description }}</td>
-                                    <td>{{ wine.link }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-icon-split btn-sm"  href="{{ path('edit_wine',{id:wine.id}) }}" >
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-edit"></i>
                                             </span>
                                             <span class="text">Edit</span>
+                                        </a>
+                                        <a class="btn btn-success btn-icon-split btn-sm" id="makeAvailableButton-{{ wine.getId() }}" onclick="makeAvailable({{ wine.getId() }})" href="#" rel="{{ path('make_available',{'id':wine.getId()}) }}">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <span class="text"> Make Wine Available</span>
                                         </a>
 
                                     </td>
