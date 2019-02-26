@@ -55,7 +55,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("waiter_dashboard", name="order_list")
+     * @Route("waiter", name="order_list")
      */
     public function listAction(){
 

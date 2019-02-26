@@ -21,8 +21,16 @@ This is a application is developed to model the communication between Customers,
 
 **HOW TO INSTALL** <br/>
 
-1. **NOTE**: Please download RabbitMQ from [Rabbit MQ ](https://www.rabbitmq.com/download.html) and install.
+1. START RABBITMQ
 
+    **WINDOW USER**
+            
+        start-rabbit.bat
+        
+    **LINUX USER**
+        
+        ./start-rabbit.sh 
+           
 >ENSURE RABBITMQ IS RUNNING ON Port **5672** <br/>
 
 2.  **START APPLICATION**
@@ -32,6 +40,7 @@ This is a application is developed to model the communication between Customers,
     ii. **WINDOW USER**
     
     -   Run ``start-app.bat``
+    -   This will open the application on your browser automatically.
     
     **LINUX USER**
          
