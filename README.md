@@ -98,9 +98,12 @@ HOW TO TEST IF  APP IS WORKING
     -   List Wine
     -   Create New Wine Record
     -   Update Wine
+    -   Easy Make Wine Available 
   ![Wine Request Fome](https://docs.google.com/uc?id=1iA64WBH1qVpgSLVcIf5ZALkHrbBpEaJM)   
   ![Wine Request Fome](https://docs.google.com/uc?id=1sHU2zkxmvOsGt2QTMQ3hzpjjyitWk4iF)   
   ![Wine Request Fome](https://docs.google.com/uc?id=1hT_hUAp9nLSnGLH_dOZwiYDoNtRDyt8A)   
+  ![Wine Request Fome](https://docs.google.com/uc?id=1zrLZnbwWr9P0hMZPOTd2osiEQIp8Krau)   
+  ![Wine Request Fome](https://docs.google.com/uc?id=19RCKKvt9sttSs2KCuHwXE_9eddc6a8-i)   
 
 **ADDITIONAL FEATURE:**
 -   If a customer request for a wine and the wine is unavailable on that day, next time it is available the customer get notified of the wine availability.
