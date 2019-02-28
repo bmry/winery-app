@@ -26,12 +26,10 @@ class WineAvailabilityNotifier implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $wineInfo = json_decode($msg->body);
-
-
         $wineId = $wineInfo->wine_id;
         $wine =  $this->getWine($wineId);
         $orders = $this->getFromLogOrdersWithUnavailableWineBeforeNow($wine);
-        dump(count($orders));
+
         foreach ($orders as $order){
             /*
              * NOTE: This is intened to send a message to the customer but it is commennted out
@@ -49,7 +47,6 @@ class WineAvailabilityNotifier implements ConsumerInterface
         $lastWineAvailableDateLogBeforeNewUpdate = $this->entityManager->getRepository('App\Entity\WineLog')->getFromWineLogLastTimeWineWasAvailableBeforeNewUpdate($wine);
 
         if($lastWineAvailableDateLogBeforeNewUpdate){
-
             $lastTimeWineWasAvailable = $lastWineAvailableDateLogBeforeNewUpdate->getOldPublishDate();
             return $this->entityManager->getRepository('App\Entity\Order')->getOrdersWithUnavailableResponseForWineByDate($wine, $lastTimeWineWasAvailable);
         }
@@ -67,8 +64,8 @@ class WineAvailabilityNotifier implements ConsumerInterface
 
     }
 
-    private function sendMail($message){
-
+    private function sendMail($message)
+    {
         $message = $this->getMailBody($message);
         $this->mailer->send($message);
     }

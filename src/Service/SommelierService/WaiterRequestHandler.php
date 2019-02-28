@@ -31,9 +31,9 @@ class WaiterRequestHandler implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $waiterRequest = json_decode($msg->body, true);
+        $this->orderLogger->logAction('sommelier_received_order',$waiterRequest['order_id'], $waiterRequest);
         $this->processWaiterRequest($waiterRequest);
         $this->sendProcessedOrder();
-        $this->orderLogger->logAction('sommelier_received_order',$waiterRequest['order_id'], $waiterRequest);
     }
 
     private function processWaiterRequest($request)
@@ -55,6 +55,7 @@ class WaiterRequestHandler implements ConsumerInterface
     private function wineAvailableOnOrderDate($wineName, $orderDate){
         $available = true;
         $wine = $this->entityManager->getRepository('App\Entity\Wine')->getWineByNameAndDate($wineName,$orderDate);
+        dump($wine);
         if(!$wine){
             $available = false;
         }
@@ -73,6 +74,7 @@ class WaiterRequestHandler implements ConsumerInterface
 
     private function getWineAvailabilityStatusOnOrderDate($wineId, $orderDate){
         $wineName = $this->getWineNameById($wineId);
+        dump($wineName);
         if(!$this->wineAvailableOnOrderDate($wineName, $orderDate)){
             $wineAvailabilityStatus = array('wineName' => $wineName, 'availabilityStatus' => false);
         }else{

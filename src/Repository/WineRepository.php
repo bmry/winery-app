@@ -20,6 +20,8 @@ class WineRepository extends ServiceEntityRepository
     }
 
     public function getWineByNameAndDate($wineName, $dateTime){
+        dump($dateTime);
+        dump($wineName);
         return $this->createQueryBuilder('w')
             ->where('w.title = :name')
             ->andWhere('w.publishDate LIKE :date')

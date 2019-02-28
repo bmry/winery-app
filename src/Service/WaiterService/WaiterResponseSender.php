@@ -67,7 +67,6 @@ class WaiterResponseSender implements ConsumerInterface
             $orderedItem = $this->entityManager->getRepository('App\Entity\OrderItem')->findOneBy(['wine' => $wine,'orderId' => $order]);
             $orderedItem->setAvailable($wineAvailabilityStatus);
             $this->entityManager->persist($orderedItem);
-            dump($orderedItem);
             $this->entityManager->flush();
         }
     }

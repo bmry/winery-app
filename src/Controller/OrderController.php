@@ -42,7 +42,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $order->setCreatedAt(new  \DateTime(date('Y-m-24')));
+            $order->setCreatedAt(new  \DateTime(date('Y-m-d')));
             $em->persist($order);
             $em->flush();
             $this->addFlash('success', 'Your order has been received and its being processed. We will get back to you shortly via the email address you provided.');
