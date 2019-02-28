@@ -9,7 +9,10 @@
 namespace App\Tests\Unit;
 
 
-class OrderControllerTest
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class OrderControllerTest extends WebTestCase
 {
+
 
 }
