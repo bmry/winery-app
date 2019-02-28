@@ -53,7 +53,6 @@ class WaiterResponseSender implements ConsumerInterface
     {
         $order->setStatus('PROCESSED');
         $this->entityManager->persist($order);
-
     }
 
     private function updateOrderItemAvailability($order)

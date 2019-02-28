@@ -30,7 +30,7 @@ class RSSFeedLoaderCommand extends Command
     {
         $this
             ->setName('app:load_rss_feed')
-            ->setDescription('This helps extract the RSS Feed content into the databae');
+            ->setDescription('This helps extract the RSS Feed content into the database');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

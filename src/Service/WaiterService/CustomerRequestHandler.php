@@ -30,7 +30,6 @@ class CustomerRequestHandler
     public function sendCustomerOrderToSomellier(Order $order)
     {
         $this->orderLogger->logAction('waiter_received_order', $order->getId(), $order->getId());
-
         $message = [
             'order_id' => $order->getId(),
             'items' => $this->getOrderItemsName($order->getOrderItems())

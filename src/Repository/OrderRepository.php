@@ -34,10 +34,6 @@ class OrderRepository extends ServiceEntityRepository
 
     public function getOrdersWithUnavailableResponseForWineByDate(Wine $wine,$wineLastAvailableDate){
 
-        dump($wine->getPublishDate());
-        dump($wineLastAvailableDate);
-        //dump($this->findOneBy(['id' => 10]));
-
         $query = $this->createQueryBuilder('o')
             ->leftJoin('o.orderItems', 't')
             ->where('t.available = :available')
@@ -49,27 +45,9 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('wine', $wine)
             ->getQuery();
 
-
         $result = $query->getResult();
-        $sql = $query->getSQL();
-        $par1 = $query->getParameter('wineLastAvailableDate');
-        $par2 = $query->getParameter('wineNewAvailableDate');
-
-        dump($sql);
-        dump($par1);
-        dump($par2);
 
         return $result;
     }
-    /*
-    public function findOneBySomeField($value): ?Order
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+
 }

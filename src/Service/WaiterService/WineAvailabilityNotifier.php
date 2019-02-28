@@ -56,12 +56,10 @@ class WineAvailabilityNotifier implements ConsumerInterface
         return $this->entityManager->getRepository('App\Entity\Wine')->findOneBy(['id' => $wineId]);
     }
 
-
     private function notifyCustomerViaEmailOfWineAvailability($customerEmail, $wine)
     {
         $message = ['email' => $customerEmail,'availableWine' => $wine ];
         $this->sendMail($message);
-
     }
 
     private function sendMail($message)
@@ -84,6 +82,5 @@ class WineAvailabilityNotifier implements ConsumerInterface
 
         return $message;
     }
-
 
 }

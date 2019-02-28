@@ -58,14 +58,14 @@ class WineController  extends AbstractController
     /**
      * @Route("make_available/{id}", name="make_available")
      */
-    public function makeAvailable($id){
+    public function makeWineAvailable($id){
         $em = $this->getDoctrine()->getManager();
         $wine = $em->getRepository('App\Entity\Wine')->findOneBy(['id' => $id]);
         $wine->setPublishDate(new \DateTime());
         $em->persist($wine);
         $em->flush();
 
-        $this->addFlash('success', 'Wine Now Available For the Day');
+        $this->addFlash('success', 'Wine Is Now Available For the Day');
         return $this->redirect($this->generateUrl('wine_list'));
 
     }
