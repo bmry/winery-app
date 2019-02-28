@@ -1,12 +1,12 @@
 **NOTE: 
 
 -   **In Production I will decompose the application into two services and deploy each service per container so that they can scale independently when requests increases**
--   **I planned to start the application with two instance of waiter service and one instance of sommelier as described in the exercise.**
+-   **I planned to start the application with two instance of waiter service and one instance of sommelier in production**
 -   **Due to limited time I was not able to add  functional and unit Test but I would not deploy into production without tests to cover edge cases.**
 
 **WINERY APP**
 
-This is a application is developed to model the communication between Customers, Waiter and Sommelier.
+This is an application is developed to model the communication between Customers, Waiter and Sommelier.
 
 **TECHNOLOGY STACK**
 
@@ -91,8 +91,9 @@ HOW TO TEST IF  APP IS WORKING
         -   View Order Logs
         -   View Order Items/ Status
        
+     ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG) 
      ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
-     ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG)   
+       
   - View Order Item 
 - **Sommelier Dashboard**
   - The sommelier can do the following:
