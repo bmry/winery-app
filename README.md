@@ -91,8 +91,9 @@ HOW TO TEST IF  APP IS WORKING
         -   View Order Logs
         -   View Order Items/ Status
        
+     ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG) 
      ![Wine Request Fome](https://docs.google.com/uc?id=1Y1ybnWPVCNVvi0rfAMm6_1d_JjFG39YQ)   
-     ![Wine Request Fome](https://docs.google.com/uc?id=184Ut-NOVCgVAYqc6LgkhlB-rvjX34udG)   
+       
   - View Order Item 
 - **Sommelier Dashboard**
   - The sommelier can do the following:
