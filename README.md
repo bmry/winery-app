@@ -6,7 +6,7 @@
 
 **WINERY APP**
 
-This is a application is developed to model the communication between Customers, Waiter and Sommelier.
+This is an application is developed to model the communication between Customers, Waiter and Sommelier.
 
 **TECHNOLOGY STACK**
 
