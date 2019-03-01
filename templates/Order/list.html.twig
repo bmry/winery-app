@@ -20,7 +20,7 @@
                         </a>
                     </div>
                     {% else %}
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table  id="orderList" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -33,7 +33,7 @@
                             <tbody>
 
                             {% for order in orders %}
-                                <tr>
+                                <tr class="orderRow">
                                     <td>ORD-{{ order.id }}</td>
                                     <td>{{ order.customerContactEmail }}</td>
                                     <td>{{ order.status }}</td>
