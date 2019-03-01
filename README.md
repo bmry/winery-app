@@ -15,6 +15,7 @@ This is an application is developed to model the communication between Customers
 >3. RABBITMQ`<br/>
 >4. PHP 7
 >5. DOCKER
+>6. DOCTRINE
 
 
 **HOW TO INSTALL** <br/>
