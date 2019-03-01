@@ -2,7 +2,7 @@
 
 -   **In Production I will decompose the application into two services and deploy each service per container so that they can scale independently when requests increases**
 -   **I planned to start the application with two instance of waiter service and one instance of sommelier in production**
--   **Due to limited time I was not able to add  functional and unit Test but I would not deploy into production without tests to cover edge cases.**
+-   **Due to limited time I was not able to add enough functional and unit Test but I would not deploy into production without tests to cover edge cases.**
 
 **WINERY APP**
 
